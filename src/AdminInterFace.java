@@ -15,4 +15,7 @@ public class AdminInterFace extends HttpServlet {
 
     }
 
+    protected void doGet(){
+
+    }
 }
