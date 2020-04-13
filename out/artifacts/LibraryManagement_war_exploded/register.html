@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>用户注册界面</title>
+    <script>
+        //这个地方我采用的是创建用户后 后端自动分配一个账号给用户 所以这里的注册提交表单不包括账号 请务必注意
+        function checkPassword() {
+            var Password1=document.register.theFirstUserPassword.value;
+            var Password2=document.register.theSecondUserPassword.value;
+            if(Password1 !== Password2) {
+                alert("您输入的两次密码必须相同");
+            }else if(Password1.length<5||Password2.length>12){
+                alert("您的密码不能少于5位,不能大于12位");
+            }else{
+                //提交表单
+                document.register.submit();
+            }
+        }
+    </script>
+</head>
+<body>
+<!--注册表单-->
+<form name="register" action="register" method="POST">
+    密         码:<input type="text" name="theFirstUserPassword" required/><br/>
+    请再次输入密码:<input type="text" name="theSecondUserPassword" required/><br/>
+    <input type="button" value="注册" onclick="checkPassword()"/>
+</form>
+</body>
+<html>
