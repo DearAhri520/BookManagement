@@ -15,6 +15,7 @@ public class AdminInterFace extends HttpServlet {
 
     }
 
+    //这个方法是用来实验的 过后请删除
     protected void doGet(){
 
     }
