@@ -5,7 +5,7 @@ public class Account {
     private String password;//账号密码
     private boolean status;//身份，即是否为管理员
     private String name;//姓名
-    private int stuentId;//学号
+    private int studentId;//学号
     HashMap<Integer, Book>borrowBooks;//已借书籍
     HashMap<Integer,Book>bookCollection;//收藏
 
@@ -15,12 +15,12 @@ public class Account {
         this.borrowBooks = new HashMap<Integer,Book>();
     }
 
-    public Account(int accountId, String password, String name, int stuentId) {
+    public Account(int accountId, String password, String name, int studentId) {
         this();
         this.accountId = accountId;
         this.password = password;
         this.name = name;
-        this.stuentId = stuentId;
+        this.studentId = studentId;
     }
 
     public int getAccountId() {
@@ -55,12 +55,12 @@ public class Account {
         this.name = name;
     }
 
-    public int getStuentId() {
-        return stuentId;
+    public int getstudentId() {
+        return studentId;
     }
 
-    public void setStuentId(int stuentId) {
-        this.stuentId = stuentId;
+    public void setstudentId(int studentId) {
+        this.studentId = studentId;
     }
 
     public HashMap<Integer, Book> getBorrowBooks() {

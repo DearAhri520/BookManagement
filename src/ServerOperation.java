@@ -38,7 +38,14 @@ public class ServerOperation {
     public static void removeBook(int bookId){
         ServerDate.removeBook(bookId);
     }
-    //按管理员ID和用户ID添加管理员账号
+
+    /**
+     * 作用：将一个用户账户变成一个管理员账户
+     *
+     * @param adminAccountId 管理员账户
+     * @param userAccountId 用户账户
+     * @return 是否成功
+     */
     public static Boolean addAdmin(int adminAccountId, int userAccountId) {
         return ServerDate.addAdmin(adminAccountId, userAccountId);
     }
@@ -65,8 +72,9 @@ public class ServerOperation {
         Boolean containNumber = false;
         Boolean containUpper = false;
         Boolean containLover = false;
-        if(password.length()<6)
+        if(password.length()<6) {
             return false;
+        }
         char[] s = password.toCharArray();
         int length = 0;
         for (int i = 0; i < s.length; i++) {
@@ -80,8 +88,10 @@ public class ServerOperation {
                 containLover = true;
             }
         }
-        if(containLover && containNumber && containUpper)
+        if(containLover && containNumber && containUpper) {
             return true;
-        else return false;
+        } else {
+            return false;
+        }
     }
 }
