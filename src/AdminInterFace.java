@@ -14,9 +14,4 @@ public class AdminInterFace extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
     }
-
-    //这个方法是用来实验的 过后请删除
-    protected void doGet(){
-
-    }
 }
