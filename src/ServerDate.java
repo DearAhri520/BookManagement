@@ -1,181 +1,244 @@
 import java.util.HashMap;
 
+/**
+ * @author 贺文超
+ */
 public class ServerDate {
-    private static int accountInitId = 100000;//账号初始ID
-    private static int bookInitId = 100000;//书籍初始ID
-    private static HashMap<Integer, Book> allBooks;//书籍数据
-    private static HashMap<String, Book> allBooks1;//按书名存的书籍数据
-    private static HashMap<Integer, Account> accounts;//账号数据
+
+    /**
+     * 账号初始ID
+     */
+    private static int accountInitId = 100000;
+
+    /**
+     * 书籍初始ID
+     */
+    private static int bookInitId = 100000;
+
+    /**
+     * 按照书籍Id管理的书籍数据管理
+     */
+    private static HashMap<Integer, Book> allBooks;
+
+    /**
+     * 按照书名管理的书籍数据存储
+     */
+    private static HashMap<String, Book> allBooks1;
+
+    /**
+     * 账号数据
+     */
+    private static HashMap<Integer, Account> allAccounts;
 
     public ServerDate() {
         allBooks = new HashMap<Integer, Book>();
-        accounts = new HashMap<Integer, Account>();
-    }
-
-    public static int getAccountInitId() {
-        return accountInitId;
-    }
-
-    public static void setAccountInitId(int accountInitId) {
-        ServerDate.accountInitId = accountInitId;
-    }
-
-    public static int getBookInitId() {
-        return bookInitId;
-    }
-
-    public static void setBookInitId(int bookInitId) {
-        ServerDate.bookInitId = bookInitId;
+        allAccounts = new HashMap<Integer, Account>();
     }
 
     public static HashMap<Integer, Book> getAllBooks() {
         return allBooks;
     }
 
+    /**
+     * 设置储存的所有书籍
+     *
+     * @param allBooks 所有书籍
+     */
     public static void setAllBooks(HashMap<Integer, Book> allBooks) {
         ServerDate.allBooks = allBooks;
     }
 
+    /**
+     * 获取所有的账户
+     *
+     * @return 返回所有的账户
+     */
     public static HashMap<Integer, Account> getAccounts() {
-        return accounts;
+        return allAccounts;
     }
 
+    /**
+     * 设置所有的账户
+     *
+     * @param accounts 所有的账户
+     */
     public static void setAccounts(HashMap<Integer, Account> accounts) {
-        ServerDate.accounts = accounts;
+        ServerDate.allAccounts = accounts;
     }
 
     //功能
 
-    //判断身份，略写
-    public static int identifyJudge(String name,String studentId){
-        if(studentId.length() == 6) {
-            return 2;//管理员
-        } else if(studentId.length() == 11) {
-            return 1;//用户
-        } else {
-            return 0;//非法用户
+    /**
+     * 判断用户 普通用户返回1 管理员返回2 非法用户返回0
+     *
+     * @param studentId 用户Id
+     * @return int类型
+     */
+    public static int identifyJudge(String studentId){
+        if(allAccounts.containsKey(Integer.parseInt(studentId))){
+            if(allAccounts.get(Integer.parseInt(studentId)).getStatus()){
+                return 2;
+            }else {
+                return 1;
+            }
         }
+        return 0;
     }
-    //登录
-    public static Account accountLogin(int id, String password){
-        if(accounts.get(id).getPassword().equals(password)){
-            return accounts.get(id);
-        } else {
-            return null;
-        }
-    }
-    //注册
-    public static Account accountRegister(String name, String studentId, String password){
-        int studentID = Integer.parseInt(studentId);
-        Account account = new Account();
 
-        if(ServerDate.identifyJudge(name, studentId) == 0){//非法用户
-            return null;
+    /**
+     * 用户登录
+     *
+     * @param id 用户Id
+     * @param password 用户密码
+     * @return 返回该用户是否存在
+     */
+    public static boolean accountLogin(String id, String password){
+        if(allAccounts.containsKey(Integer.parseInt(id))){
+            return allAccounts.get(Integer.parseInt(id)).getPassword().equals(password);
         }
-        else if(ServerDate.identifyJudge(name, studentId) == 1){//用户
-            account =new Account(accountInitId++, password, name, studentID);
-        }
-        else if(ServerDate.identifyJudge(name, studentId) == 2){//管理员
-            account =new Account(accountInitId++, password, name, studentID);
-            account.setStatus(true);
-        }
-        accounts.put(account.getAccountId(), account);
+        return false;
+    }
+
+    /**
+     * 用户注册
+     *
+     * @param name 用户真实姓名
+     * @param password 用户密码
+     * @return 返回一个Account实例
+     */
+    public static Account accountRegister(String name, String password){
+        Account account= new Account(String.valueOf(accountInitId),password,name);
+        allAccounts.put(accountInitId,account);
+        accountInitId++;
         return account;
     }
-    //按书名查书
+
+    /**
+     * 查找书籍
+     *
+     * @param bookName 书籍名称
+     * @return 返回查找到的书籍
+     */
     public static Book searchBook(String bookName){
         if(allBooks1.containsKey(bookName)){
-            return allBooks.get(bookName);
+            return allBooks1.get(bookName);
         } else {
             return null;
         }
     }
-    //按书的ID查书
-    public static Book searchBook(int bookId){
+
+    /**
+     *按书的ID查书
+     *
+     * @param bookId 书籍id
+     * @return 返回查找到的书籍
+     */
+    public static Book searchBook(Integer bookId){
         if(allBooks.containsKey(bookId)){
             return allBooks.get(bookId);
         } else {
             return null;
         }
     }
-    //借书
+
+    /**
+     * 借书
+     *
+     * @param accountId 用户Id
+     * @param bookId 书籍Id
+     * @return 用户是否借书成功
+     */
     public static Boolean borrowBook(int accountId,int bookId){
-        if(!allBooks.containsKey(bookId)){
+        if(!allBooks.containsKey(bookId)||!allAccounts.containsKey(accountId)){
             return false;
         }
-        if(!accounts.containsKey(accountId)){
-            return false;
-        }
-        Account account = accounts.get(accountId);
+        Account account = allAccounts.get(accountId);
         Book book = allBooks.get(bookId);
-        if(book.getState() == false ){
+        if(!book.getState()){
             book.borrowBook(accountId);
             account.borrowBook(book);
             return true;
-        } else {
-            return false;
         }
+        return false;
     }
-    //还书
+
+    /**
+     * 用户还书
+     *
+     * @param accountId 用户Id
+     * @param bookId 书籍Id
+     * @return 用户是否还书成功
+     */
     public static Boolean returnBook(int accountId,int bookId){
-        if(!allBooks.containsKey(bookId)){
+        if(!allBooks.containsKey(bookId)||!allAccounts.containsKey(accountId)){
             return false;
         }
-        if(!accounts.containsKey(accountId)){
-            return false;
-        }
-        Account account = accounts.get(accountId);
+        Account account = allAccounts.get(accountId);
         Book book = allBooks.get(bookId);
         book.borrowBook(accountId);
         account.borrowBook(book);
         return true;
     }
-    //添加书籍
+
+    /**
+     * 增添新的书籍
+     *
+     * @param name 书籍名字
+     * @param info 书籍信息
+     * @return 增添的新的book实例
+     */
     public static Book addBook(String name, String info){
-        Book book = new Book(bookInitId ++ ,name,info);
+        Book book = new Book(bookInitId++ ,name,info);
         allBooks.put(book.getBookId(),book);
         allBooks1.put(book.getName(),book);
         return book;
     }
-    //删除书籍
-    public static void removeBook(int bookId){
+
+    /**
+     * 删除书籍
+     *
+     * @param bookId 书籍Id
+     */
+    public static boolean removeBook(int bookId){
         if(allBooks.containsKey(bookId)){
             Book book = allBooks.get(bookId);
             allBooks.remove(bookId);
             if(allBooks1.containsKey(book.getName())){
                 allBooks1.remove(book.getName());
-            }
-        }
-    }
-    //添加管理员账号
-    public static Boolean addAdmin(int adminAccountId, int userAccountId){//添加管理员
-        if(accounts.containsKey(adminAccountId) && accounts.containsKey(userAccountId)){//账号是否存在
-            Account admin = accounts.get(adminAccountId);
-            Account user = accounts.get(userAccountId);
-            if(admin.getStatus()){//处理账号是否为管理员
-                user.setStatus(true);
                 return true;
-            } else {
-                return false;
             }
         }
-        else {
-            return false;
-        }
+        return false;
     }
-    //删除用户账号
-    public static Boolean removeUser(int adminAccountId, int userAccountId){
-        if(accounts.containsKey(adminAccountId) && accounts.containsKey(userAccountId)) {//账号是否存在
-            Account admin = accounts.get(adminAccountId);
-            Account user = accounts.get(userAccountId);
-            if(admin.getStatus() ==true && user.getStatus() == false){
-                accounts.remove(user.getAccountId());
-                return true;
-            } else {
-                return false;
-            }
-        } else {
-            return false;
+
+    /**
+     * 将一个普通用户变成一个管理员
+     *
+     * @param userAccountId 普通用户账户
+     * @return 是否修改成功
+     */
+    public static Boolean addAdmin(int userAccountId){
+        if(allAccounts.containsKey(userAccountId)){
+            allAccounts.get(userAccountId).setStatus(true);
+            return true;
         }
+        return false;
+    }
+
+    /**
+     * 删除用户帐号
+     *
+     * @param userAccountId 需删除的用户Id
+     * @return 是否删除成功
+     */
+    public static boolean removeUser(int userAccountId){
+        if(allAccounts.containsKey(userAccountId)) {
+            Account user=allAccounts.get(userAccountId);
+            if(!user.getStatus()){
+                allAccounts.remove(Integer.parseInt(user.getAccountId()));
+                return true;
+            }
+        }
+        return false;
     }
 }

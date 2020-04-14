@@ -1,17 +1,40 @@
 import java.util.Date;
 
+/**
+ * @author 贺文超
+ */
 public class Book {
-    private int bookId;//书籍的专属ID
-    private String name;//书籍的名称
-    private String info;//书籍信息
-    private boolean state;//状态(借阅与否)
-    private int borrowId;//借书人id
+
+    /**
+     * 书籍的专属ID
+     */
+    private int bookId;
+
+    /**
+     * 书籍的名称
+     */
+    private String name;
+
+    /**
+     * 书籍信息
+     */
+    private String info;
+
+    /**
+     * 该书是否被借阅
+     */
+    private boolean state;
+
+    /**
+     * 借书人用户Id
+     */
+    private int borrowId;
 
     public Book() {
     }
 
-    public Book(int ID, String name, String info) {
-        this.bookId = ID;
+    public Book(int id, String name, String info) {
+        this.bookId = id;
         this.name = name;
         this.info = info;
         this.state = false;
