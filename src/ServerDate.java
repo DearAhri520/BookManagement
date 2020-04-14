@@ -66,8 +66,6 @@ public class ServerDate {
         ServerDate.allAccounts = accounts;
     }
 
-    //功能
-
     /**
      * 判断用户 普通用户返回1 管理员返回2 非法用户返回0
      *
@@ -114,7 +112,7 @@ public class ServerDate {
     }
 
     /**
-     * 查找书籍
+     * 按书籍名称查找书籍
      *
      * @param bookName 书籍名称
      * @return 返回查找到的书籍
@@ -128,7 +126,7 @@ public class ServerDate {
     }
 
     /**
-     *按书的ID查书
+     *按书籍id查找查书
      *
      * @param bookId 书籍id
      * @return 返回查找到的书籍
@@ -142,7 +140,7 @@ public class ServerDate {
     }
 
     /**
-     * 借书
+     * 用户借书
      *
      * @param accountId 用户Id
      * @param bookId 书籍Id
