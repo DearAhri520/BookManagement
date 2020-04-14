@@ -1,5 +1,6 @@
+
 public class ServerOperation {
-    ////按ID和Password登陆成功返回account，失败返回null
+    //按ID和Password登陆成功返回account，失败返回null
     public static Account Login(String id, String password){
         if(!ServerOperation.judgeIsNumber(id)){//如果账号不是纯数字
             return null;
@@ -8,33 +9,33 @@ public class ServerOperation {
         Account account = ServerDate.accountLogin(accountId,password);//登录
         return account;
     }
-    ////按姓名，学号ID和Password注册成功返回account，失败返回null
+    //按姓名，学号ID和Password注册成功返回account，失败返回null
     public static Account Register(String name, String studentId, String password){
         Account account = ServerDate.accountRegister(name, studentId, password);
         return account;
     }
     //按书名查找书籍，成功返回Book,失败返回null
-    public Book searchBook(String bookName){
+    public static Book searchBook(String bookName){
         return ServerDate.searchBook(bookName);
     }
     //按书ID查找书籍，成功返回Book,失败返回null
-    public Book searchBook(int bookID){
+    public static Book searchBook(int bookID){
         return searchBook(bookID);
     }
     //按用户账号ID和书的ID来借书。返回Boolean;
-    public Boolean borrowBook(int accountId,int bookId){
+    public static Boolean borrowBook(int accountId,int bookId){
         return ServerDate.borrowBook(accountId,bookId);
     }
     //按用户账号ID和书的ID来还书。返回Boolean;
-    public Boolean returnBook(int accountId,int bookId){
+    public static Boolean returnBook(int accountId,int bookId){
         return ServerDate.returnBook(accountId,bookId);
     }
     //按书名和书籍信息来添加书籍
-    public Book addBook(String name, String info){
+    public static Book addBook(String name, String info){
         return ServerDate.addBook(name, info);
     }
     //按书籍ID来删除书籍
-    public void removeBook(int bookId){
+    public static void removeBook(int bookId){
         ServerDate.removeBook(bookId);
     }
     //按管理员ID和用户ID添加管理员账号
@@ -79,11 +80,8 @@ public class ServerOperation {
                 containLover = true;
             }
         }
-        if(containLover && containNumber && containUpper) {
+        if(containLover && containNumber && containUpper)
             return true;
-        } else {
-            return false;
-        }
+        else return false;
     }
 }
-

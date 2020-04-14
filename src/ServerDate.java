@@ -1,8 +1,5 @@
 import java.util.HashMap;
 
-/**
- * @author
- */
 public class ServerDate {
     private static int accountInitId = 100000;//账号初始ID
     private static int bookInitId = 100000;//书籍初始ID
@@ -59,7 +56,6 @@ public class ServerDate {
             return 0;//非法用户
         }
     }
-
     //登录
     public static Account accountLogin(int id, String password){
         if(accounts.get(id).getPassword().equals(password)){
@@ -162,7 +158,8 @@ public class ServerDate {
             } else {
                 return false;
             }
-        } else {
+        }
+        else {
             return false;
         }
     }
@@ -182,4 +179,3 @@ public class ServerDate {
         }
     }
 }
-
