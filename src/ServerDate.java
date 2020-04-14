@@ -173,8 +173,8 @@ public class ServerDate {
         }
         Account account = allAccounts.get(accountId);
         Book book = allBooks.get(bookId);
-        book.borrowBook(accountId);
-        account.borrowBook(book);
+        book.returnBook(accountId);
+        account.returnBook(book);
         return true;
     }
 
@@ -197,10 +197,11 @@ public class ServerDate {
      *
      * @param bookId 书籍Id
      */
-    public static boolean removeBook(int bookId){
-        if(allBooks.containsKey(bookId)){
-            Book book = allBooks.get(bookId);
-            allBooks.remove(bookId);
+    public static boolean removeBook(String bookId){
+        int bookIdTemp=Integer.parseInt(bookId);
+        if(allBooks.containsKey(bookIdTemp)){
+            Book book = allBooks.get(bookIdTemp);
+            allBooks.remove(bookIdTemp);
             if(allBooks1.containsKey(book.getName())){
                 allBooks1.remove(book.getName());
                 return true;
@@ -210,14 +211,13 @@ public class ServerDate {
     }
 
     /**
-     * 将一个普通用户变成一个管理员
+     * 将某个用户变成一个管理员
      *
-     * @param userAccountId 普通用户账户
      * @return 是否修改成功
      */
-    public static Boolean addAdmin(int userAccountId){
-        if(allAccounts.containsKey(userAccountId)){
-            allAccounts.get(userAccountId).setStatus(true);
+    public static boolean addAdmin(String userAccountId){
+        if(allAccounts.containsKey(Integer.parseInt(userAccountId))){
+            allAccounts.get(Integer.parseInt(userAccountId)).setStatus(true);
             return true;
         }
         return false;
@@ -229,14 +229,27 @@ public class ServerDate {
      * @param userAccountId 需删除的用户Id
      * @return 是否删除成功
      */
-    public static boolean removeUser(int userAccountId){
-        if(allAccounts.containsKey(userAccountId)) {
-            Account user=allAccounts.get(userAccountId);
+    public static boolean removeUser(String userAccountId){
+        if(allAccounts.containsKey(Integer.parseInt(userAccountId))){
+            Account user=allAccounts.get(Integer.parseInt(userAccountId));
             if(!user.getStatus()){
                 allAccounts.remove(Integer.parseInt(user.getAccountId()));
                 return true;
             }
         }
         return false;
+    }
+
+    /**
+     * 按照用户Id查找用户的具体信息
+     *
+     * @param userId 用户Id
+     * @return 返回一个Account实例
+     */
+    public static Account findAccount(String userId){
+        if(allAccounts.containsKey(Integer.parseInt(userId))){
+            return allAccounts.get(Integer.parseInt(userId));
+        }
+        return null;
     }
 }

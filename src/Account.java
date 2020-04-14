@@ -57,14 +57,6 @@ public class Account {
     }
 
     /**
-     *
-     * @param accountId 用户新的账号Id
-     */
-    public void setAccountId(String accountId) {
-        this.accountId = accountId;
-    }
-
-    /**
      * 获取用户密码
      *
      * @return 用户密码
@@ -78,7 +70,6 @@ public class Account {
      *
      * @param password 用户设置的新的密码
      */
-
     public void setPassword(String password) {
         this.password = password;
     }

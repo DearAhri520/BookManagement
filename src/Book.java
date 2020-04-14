@@ -81,8 +81,8 @@ public class Book {
     }
 
     public void borrowBook(int accountId){
-        this.state = true;
-        this.borrowId = accountId;
+        this.setState(true);
+        this.setBorrowId(accountId);
     }
     public void returnBook(int accountId){
         this.state = false;
