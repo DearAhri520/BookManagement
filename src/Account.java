@@ -51,12 +51,12 @@ public class Account {
         this.borrowHistory = new HashMap<Integer,Book>();
     }
 
-    public Account(int accountId, String password, String name, int stuentId) {
+    public Account(int accountId, String password, String name, int studentId) {
         this();
         this.accountId = accountId;
         this.password = password;
         this.name = name;
-        this.studentId = stuentId;
+        this.studentId = studentId;
     }
 
     public int getAccountId() {
